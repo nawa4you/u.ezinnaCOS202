@@ -1,0 +1,242 @@
+#include <iostream>
+#include <string>
+#include <cstdlib>
+#include <sstream>
+#include <vector>
+using namespace std;
+
+//used online resources to find out bool can be used to validate login, others are straight from prev work.
+bool login() {
+	
+
+string usernames[5] = {"daniel", "ezinna", "desmond", "david", ""};
+
+string password[5] = {"1234", "abcd", "qwerty", "uiop", ""};
+
+
+
+		while (true) {
+		cout << "Input username:";
+		string name_input;
+		getline(cin, name_input);
+		for (int i = 0; i < 5 ; i++)
+		{
+			if (name_input == usernames[i])	
+			{
+				
+				
+				cout << "Input password:";
+				string user_pas;
+				getline(cin, user_pas);
+				
+
+				if (user_pas == password[i])
+				{
+					
+					cout << "Welcome " << usernames[i] << "!!!!\n";
+					return true;
+					
+				
+				}
+
+				else {
+				}
+
+			}
+			}
+			cout << "Wrong login details.\n";
+		}
+			return false;
+
+
+
+
+	
+
+}
+
+	string ask_questions(const string *questions) {
+	
+	
+	string ans;
+	cout<< "\t\t\t\tHOTKEYS\n\t\t\t\tP for prev question\n\t\t\t\tN for next question\n\n"<<*questions<< endl;
+	getline(cin, ans);
+	return ans; 
+
+}
+
+
+
+int main() {
+	
+	
+	//ask user to enter
+	string start;
+	cout << "\t\t\t\t--------------------------------------------------------------"<< endl;
+	cout << "\t\t\t\t----CBT APPLICATION FOR SOFTWARE ENGR. & COMP SCI. 100LVL-----"<< endl;
+	cout << "\t\t\t\t------------------CREATED BY DANIEL EZINNA--------------------"<< endl;
+	cout << "\t\t\t\t--------------------------------------------------------------"<< endl;
+
+	while( true ) {
+		//enter the game
+	cout << "\n\nStart Application? (y/n)";
+	getline(cin,start);
+	if (start == "n" or start == "N")	
+	{
+		cout << "Alright. Thanks for using our app!";
+		return 0;
+	} else if (start == "y" or start == "Y")
+	{
+		system("cls");
+		cout << "Lets proceed!\n\n\n";
+		break;
+	}	else {
+	}
+		cout << "Please enter a valid input y or n" << endl;
+}
+	//continued for login, not necessarry cuz to continue to main, the infinite loop HAS to be right.... but still had to add for fun hehe
+	if (!login()) {
+		return 0;
+	}
+	string questions[10] = {"1) Which of these birds cant fly?\na)Chicken\tb)pidgeon\tc)owl\td)parrot\n\n", 
+						"2)	Which of the following is not an afican country?\na)Nigeria\tb)Algeria\tc)Malasia\td)Malawi\n\n",
+						"3) How many planets are there?\na)4\tb)8\tc)7\td)2\n\n",
+						"4) Who was an American President?\na)Barrak Obama\tb)Muhamadu Buhari\tc)Daniel Ezinna\td)Moses Bello\n\n",
+						"5) Which of the followung is not a computer input device?\na)Mouse\tb)Keyboard\tc)Scanner\td)Printer\n\n",
+						"6) What is the name of the Nigerian currency? \na)Shillings\tb)Naira\tc)Yen\td)Dollar\n\n",
+						"7) Who is known to be the african Giant? \na)Wizkid\tb)Burna Boy\tc)Davido\td)Rema\n\n",
+						"8) Which country has the biggest land mass? \na)Nigeria\tb)America\tc)Russia\td)Japan\n\n",
+						"9) How many world wars have there been? \na)1\tb)5\tc)3\td)2\n\n",
+						"10) Which Has the highest value? \na)Naira\tb)Yen\tc)Dollar\td)Shillings\n\n"
+					};
+
+	string answers[10] = {"a", "c", "b", "a", "d", "b", "b", "c", "d", "c"};
+
+	string *user_ans;
+	user_ans = new string [10];
+	vector<bool> answered(10, false); //online resource to know if answered before
+
+	int score = 0;
+
+
+	printf("\nWelcome to the test game.\nYou are to answer 10 questions and get your score at the end.\nStarting now!");
+
+//to make the program:
+// for loop, 11 times, each loop stores ans while projecting question. special inputs to override the storage: skip quest, prev. quest (then store x if skipped)
+	for (int i=0;i<10;i++) {
+		
+
+		
+		user_ans[i] = ask_questions(&questions[i]);
+		if (user_ans[i] == "p" or user_ans[i] == "P") {
+			if (i != 0) {
+//			string user_ans[i-1] = ask_questions(&questions[i-1]); this not good approach
+			if (answered [i-1]) {
+				string change_answer;
+            	cout << "You have already answered\n" << questions[i-1] << endl;
+            	cout << "previous answer: " << user_ans[i-1] << endl;
+            	cout << "Do you want to change the prev answer? (y/n): ";
+            	getline(cin, change_answer);
+
+
+            if (change_answer == "y" or change_answer == "Y") {
+            	
+			i=i-2; 						//when this is used, you can keep going back but the other one only once it works abd does not go back for consec "p"
+//                
+				
+            }
+            else if (change_answer == "n" or change_answer == "N" ){
+            	cout << "Okay."<< endl;
+            	i--;
+			}
+			}
+			
+			 
+				
+			} else {
+				cout << "No previous question.\n";
+				i--;
+			}
+		}
+		else if (user_ans[i] == "n" or user_ans[i] == "N") { 
+			if (i != 9) {
+//			string user_ans[i-1] = {ask_questions(&questions[i-1])};
+//			user_ans[i] = "x"; 				//this is just waste of code, n can be stored instead x
+			
+//			
+				
+			} else {
+				cout << "No next question.\n";
+				i--;
+				}
+			}
+			else{
+				if (user_ans[i] == ""){
+					answered[i] = false;
+	} else {
+		answered[i] = true;
+		
+	}
+			}
+		}
+
+
+
+		//calculate score at end
+		system("cls");
+		cout << "Calculating your score..."<< endl;
+
+//	}
+	for (int i = 0;i < 10;i++) {
+	cout << "your " << i+1 << " answer: "<< user_ans[i] << endl; 
+	}
+	 score = 0;
+    for (int i = 0; i < 10; i++) {
+        if (user_ans[i] == answers[i]) {
+            score++;
+        }
+    }
+		cout << "You have finished the test\n\nYour total score: " << score << "/10"<< endl;
+		
+	//print script
+	//for loop {question[i], user answer[i], correct answer[i]}
+	string print;
+	while (true) {
+	cout << "Do you want to print your script? (y/n)"<< endl;
+	cin >> print;
+	 if (print == "y") {
+	 cout << "Okay!\n\n";
+    for (int i = 0; i < 10; i++) {
+        cout << questions[i] << endl;
+        cout << "Student answer: " << user_ans[i] << endl;
+        cout << "Correct answer: " << answers[i] << endl;
+        if (user_ans[i] == answers[i]) {
+            cout << "CORRECT\n";
+        } else {
+            cout << "WRONG\n";
+        }
+    }
+    break;
+} 
+else if (print == "n") {
+	cout << "Okay, Thanks!!\n\n\n";
+//	system("color 2c"); just playing around lol
+	system(" echo MADE BY UDOCHUKWU DANIEL EZINNA, 200LVL");
+	break;
+}
+
+else {
+cout << "Please input a correct response\n";
+}
+}
+
+
+
+delete[] user_ans;
+	return 0;
+
+}
+
+
+
+
