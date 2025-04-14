@@ -118,3 +118,42 @@ def get_todo(todo_id: int, request: Request, session: SessionDep):
         raise HTTPException(status_code=404, detail="Todo not found")
     return templates.TemplateResponse("todo_detail.html", {"request": request, "todo": todo})
 
+
+@app.get("/todos/{todo_id}/edit", response_class=HTMLResponse)
+def edit_todo_form(todo_id: int, request: Request, session: SessionDep):
+    todo = session.get(Todo, todo_id)
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+    return templates.TemplateResponse("edit_todo.html", {"request": request, "todo": todo})
+
+
+@app.post("/todos/{todo_id}/edit", response_class=HTMLResponse)
+async def update_todo(todo_id: int, request: Request, session: SessionDep):
+    todo = session.get(Todo, todo_id)
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+    form = await request.form()
+    todo.name = form["name"]
+    todo.description = form["description"]
+    todo.start_time = form["start_time"]
+    todo.end_time = form["end_time"]
+
+    session.add(todo)
+    session.commit()
+    session.refresh(todo)
+    request.session["flash"] = "Todo updated successfully!"
+    return RedirectResponse(url='/', status_code=303)
+
+
+@app.post("/todos/{todo_id}/delete", response_class=HTMLResponse)
+async def delete_todo(todo_id: int, request: Request, session: SessionDep):
+    todo = session.get(Todo, todo_id)
+    if not todo:
+        raise HTTPException(status_code=404, detail="Todo not found")
+
+    session.delete(todo)
+    session.commit()
+    request.session["flash"] = "Todo deleted successfully!"
+    return RedirectResponse(url='/', status_code=303)
+
